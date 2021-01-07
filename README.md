@@ -27,6 +27,9 @@ Use the tool box in ArcGIS Pro. There is built in help in the tool metadata, and
 This tool has been done in rush. Though is works, it does not match my standards or the industry standards in terms of unit testing or documentation.
 If you want to help, or have any suggestion, log an issue, and a pull request if you feel bold enough.
 
+# Data Considerations
 
+Your input feature class must be using Lat / Long, on the spheroid WGS84. The wkid associated with that spatial reference system is 4326. The tool will send you a friendly error message otherwise.
 
+The tool expect a field to populate in your input feature class. That field must be of type string. Its length must be longer than the number of characters request for the plus length + 1. This is because Plus Code will add an extra character '+' after the 8th character. The minimum field length must be 9. This is because even if you ask for a Plus Code encoded on 4 characters, the API still returns 9 characters: for example `86JW0000+`. I have not figured out if that's good or bad yet. 
 

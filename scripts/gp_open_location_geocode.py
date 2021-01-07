@@ -37,6 +37,10 @@ def validate_code_field_length(feature_class, plus_code_field, code_length):
     field = fields[0]
     if field.type != 'String':
         raise Exception('The field for plus code must be of type String')
+
+    if field.length < 9:
+        raise Exception('The field {} must at the minimum have a length of 9'.format(plus_code_field))
+
     if field.length < (code_length + 1):
         raise Exception('The field {} is not long enough. Field Length: {} - Plus Code Length: {} - Plus Code Length Required: {}'.format(
             field.name,
