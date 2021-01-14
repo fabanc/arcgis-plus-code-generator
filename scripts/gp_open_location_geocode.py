@@ -2,15 +2,28 @@ import arcpy
 from openlocationcode import openlocationcode as olc
 
 # https://github.com/google/open-location-code/blob/master/python/openlocationcode_test.py
+# https://grid.plus.codes/
 
 
 def check_spatial_reference(feature_class):
+    """
+    Check if the feature class is using the Geographic Reference System WGS84 (Lat / Long). The wkid should be 4326.
+    An exception will be raised if that's not the case.
+    :param feature_class: The feature class that will be used to generate the Open Location Code.
+    :return:
+    """
     sr = arcpy.Describe(feature_class).spatialReference
     if sr.factoryCode != 4326:
         raise ValueError('The input feature class must be in WHS84 (WKID 4326)')
 
 
-def validate_plus_code_length(code):
+def validate_plus_code_length(code_length):
+    """
+    Validate if the Plus Code Length is valid. That does not account for the character '+' added by the API. The
+    function will raise an exception if the number of character used is not valid.
+    :param code_length: The number of characters used to encode the Open Location Code.
+    :return: None
+    """
 
     # Those are the number of digit required from the specifications.
     valid_codes_length = [
@@ -23,9 +36,9 @@ def validate_plus_code_length(code):
         12  # Level 6
     ]
 
-    if code not in valid_codes_length:
+    if code_length not in valid_codes_length:
         raise ValueError('Valid Plus Code must be one of the following value: {}'.format(
-            ', '.join([str(code) for code in valid_codes_length])
+            ', '.join([str(code_length) for code_length in valid_codes_length])
         ))
 
 
@@ -56,7 +69,7 @@ def generate_plus_code(feature_class, plus_code_field, code_length):
 
     :param feature_class: The input feature class. The EPSG must be 4326
     :param plus_code_field: The field that will contain the plus codes.
-    :param code_length: The maximum length for the plus code.
+    :param code_length: The number of characters used to encode the Open Location Code.
     :return:
     """
 
