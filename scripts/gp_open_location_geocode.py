@@ -69,16 +69,14 @@ def generate_plus_code(feature_class, plus_code_field, code_length):
     # Validate the field is long enough to accomodate the code.
     validate_code_field_length(feature_class, plus_code_field, code_length)
 
-    count = 0
+    # Get the number of features. This will be used to set a progress bar.
+    count_features = int(arcpy.management.GetCount(feature_class)[0])
+    arcpy.SetProgressor('step', 'Computing Plus Codes ...', 0, count_features, 1)
+
     with arcpy.da.UpdateCursor(feature_class, ['SHAPE@XY', plus_code_field, 'OID@']) as input_cursor:
         for input_row in input_cursor:
 
             oid = input_row[-1]
-            count += 1
-
-            if count % 100000 == 0:
-                arcpy.AddMessage('Processed {} rows so far ...'.format(count))
-
             try:
                 longitude = input_row[0][0]
                 latitude = input_row[0][1]
@@ -89,6 +87,8 @@ def generate_plus_code(feature_class, plus_code_field, code_length):
                 arcpy.AddWarning(
                     'Something went wrong with feature OID: {} - Error Message: {}'.format(oid, ex.message)
                 )
+            finally:
+                arcpy.SetProgressorPosition()
 
 
 if __name__ == '__main__':
