@@ -65,7 +65,7 @@ In order to use the tool, double click on the tool `Get Plus Code`
 
 The tool with then guide you through the list of parameters to provide:
 
-![pip](images/parameters.png)
+![params](images/parameters.png)
 
 
 
@@ -98,3 +98,38 @@ level=4 will force the grid precision to be ten digit OLC codes (.000125° x .00
 level=5 will force the grid precision to be eleven digit OLC codes (.000025° x .00003125°);
 level=6 will force the grid precision to be twelve digit OLC codes (.000005° x 0.0000078125°);
 ```
+
+# Tutorial - Generate a Grid at level 3 and compute the Plus Codes of the polygons
+
+ArcGIS Pro is a powerful tool. You can use some built-in tools to generate a grid representing plus codes areas and compute the plus code for the centroid of each polygon using the tool we provide.
+
+## Generate the grid
+
+We're going to use the tool `Create Fishnet`. The full documentation can be found here: https://pro.arcgis.com/en/pro-app/latest/tool-reference/data-management/create-fishnet.htm
+
+In our tutorial, let's generate a level 3 grid for Ottawa, ON, Canada.
+
+![fishnet-input](images/create-fishnet.png)
+
+Be sure in the section `Environments` to search your spheroid to be WGS84 (you can search by wkid, using the code 4326)
+
+![gcs](images/fishnet-gcs.png)
+
+This will generate our grid for Ottawa:
+
+![fishnet-output](images/fishnet-output.png)
+
+Use the Add Field tool. Here we have level 3 polygon, so the encoding requires 8 characters, and an additional character `+`. So our field length is 9:
+
+![add-field](images/add-field.png)
+
+Then use our tool to populate the new field named `PLUS_CODE`:
+
+![run-tool](images/run-tool.png)
+
+Then turn on labelling to admire the results:
+
+![tool-result-labels](images/tool-result-labels.png)
+
+
+
