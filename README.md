@@ -1,7 +1,14 @@
 # ArcGIS Pro Plus Code Generator
 
+## Table of content
 
-# Description
+* [Description](#description)
+* [System Requirements](#sys-requirements)
+* [How to Install](#install)
+* [How to use](#how-to)
+* [Tutorial: Generating a grid and its Plus Codes](#tutorial)
+
+## <a name="description"></a>Description
 
 This tool exposes the open location code API create by google and uses it to generate Plus Codes on ArcGIS feature classes. The API documentation is there: https://github.com/google/open-location-code
 
@@ -9,15 +16,15 @@ Detailed information about Plus Codes and the KML Service that Google Provides c
 
 This tool is a side effect of a project I have done for work. I have explored different solutions with FME and QGIS, but this was by far the fastest solution. It can generate plus code on points, and polygon feature classes.
 
-# System Requirements
+## <a name="sys-requirements"></a>System Requirements
 
 This tool is developed and tested for ArcGIS Pro. I have tested for ArcGIS Pro 2.7. Your python environment must be of 3.x (tested with 3.7, but I assume it works with 3.6 too). 
 
 The open location code library for Python must be installed in your python environment. The next section will explain how to do that.
 
-# How to install
+## <a name="install"></a>How to Install
 
-## Clone your Python Environment
+### Clone your Python Environment
 
 Open ArcGIS Pro, and bring up the menu. That will let you access your Python options, and create a new Python environment. We need that since we need to install the open location code API, and that won't be allowed in ArcGIS Pro's default environment.
  - Open ArcGIS Pro
@@ -33,7 +40,7 @@ Once cloning is over, select your new environment as your default environment wh
 ![SelectEnvironemnt](images/select-python-environment.png)
 
 
-## Install the open location code API
+### Install the open location code API
 
 Open a command line prompt, and use the `cd` command to navigate in the subdirectory of your newly created environment. In my case: `D:\arcgis-pro-envs\arcgispro-py3-plus-code\Scripts`. Then run the following command line:
 
@@ -45,7 +52,7 @@ Once it is done, the command line should look like that.
 
 For more instructions about the open location code API, go to: https://github.com/google/open-location-code/tree/master/python
 
-# Creating a folder connection to the tool:
+### Creating a folder connection to the tool:
 
 Create a folder connection, as per the screenshot below, and navigate where you have downloaded and extracted the tool.
 
@@ -55,7 +62,7 @@ You will then be able to access the tool
 
 ![pip](images/folder-connection-2.png)
 
-# How to use
+## <a name="how-to"></a>How to use
 
 Use the tool box in ArcGIS Pro. There is built-in help in the tool metadata, and the tool is configured to guide you and minimize input errors.
 
@@ -65,7 +72,7 @@ In order to use the tool, double click on the tool `Get Plus Code`
 
 The tool with then guide you through the list of parameters to provide:
 
-![pip](images/parameters.png)
+![params](images/parameters.png)
 
 
 
@@ -98,3 +105,36 @@ level=4 will force the grid precision to be ten digit OLC codes (.000125° x .00
 level=5 will force the grid precision to be eleven digit OLC codes (.000025° x .00003125°);
 level=6 will force the grid precision to be twelve digit OLC codes (.000005° x 0.0000078125°);
 ```
+
+## <a name="tutorial"></a>Tutorial - Generate a Grid at level 3 and compute the Plus Codes of the polygons
+
+ArcGIS Pro is a powerful piece of software. You can use some built-in tools to generate a grid representing plus codes areas and compute the plus code for the centroid of each polygon using the tool we provide.
+
+We're going to use the tool `Create Fishnet`. The full documentation can be found here: https://pro.arcgis.com/en/pro-app/latest/tool-reference/data-management/create-fishnet.htm
+
+In our tutorial, let's generate a level 3 grid for Ottawa, ON, Canada.
+
+![fishnet-input](images/create-fishnet.png)
+
+Be sure in the section `Environments` to search your spheroid to be WGS84 (you can search by wkid, using the code 4326)
+
+![gcs](images/fishnet-gcs.png)
+
+This will generate our grid for Ottawa:
+
+![fishnet-output](images/fishnet-output.png)
+
+Use the Add Field tool. Here we have level 3 polygon, so the encoding requires 8 characters, and an additional character `+`. So our field length is 9:
+
+![add-field](images/add-field.png)
+
+Then use our tool to populate the new field named `PLUS_CODE`:
+
+![run-tool](images/run-tool.png)
+
+Then turn on labelling to admire the results:
+
+![tool-result-labels](images/tool-result-labels.png)
+
+
+
