@@ -75,7 +75,26 @@ If you want to help, or have any suggestion, log an issue, and a pull request if
 
 # Data Considerations
 
+## Spatial Reference
+
 Your input feature class must be using Lat / Long, on the spheroid WGS84. The wkid associated with that spatial reference system is 4326. The tool will send you a friendly error message otherwise.
 
-The tool expects a field to populate in your input feature class. That field must be of type string. Its length must be longer than the number of characters request for the plus length + 1. This is because Plus Code will add an extra character '+' after the 8th character. The minimum field length must be 9. This is because even if you ask for a Plus Code encoded on 4 characters, the API still returns 9 characters: for example `86JW0000+`. I have not figured out if that's good or bad yet. 
+## Field constraints
 
+The tool expects a field to populate in your input feature class. That field must be of type string. 
+
+Its length must be longer than the number of characters request for the plus length + 1. This is because Plus Code will add an extra character '+' after the 8th character. 
+
+The minimum field length must be 9. This is because even if you ask for a Plus Code encoded on 4 characters, the API still returns 9 characters (the 4 characters you aked 4 and four characters 0): for example `86JW0000+`. I have not figured out if that's good or bad yet. 
+
+Feel free to check out this link if you want to know about plus code levels: https://grid.plus.codes/. From there we can learn:
+
+```
+level=0 will force the grid precision to be two digit OLC codes (20° x 20°);
+level=1 will force the grid precision to be four digit OLC codes (1° x 1°);
+level=2 will force the grid precision to be six digit OLC codes (.05° x .05°);
+level=3 will force the grid precision to be eight digit OLC codes (.0025° x .0025°);
+level=4 will force the grid precision to be ten digit OLC codes (.000125° x .000125°). This is the default house level precision;
+level=5 will force the grid precision to be eleven digit OLC codes (.000025° x .00003125°);
+level=6 will force the grid precision to be twelve digit OLC codes (.000005° x 0.0000078125°);
+```
