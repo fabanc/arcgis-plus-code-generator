@@ -46,7 +46,7 @@ Open a command line prompt, and use the `cd` command to navigate in the subdirec
 
 `pip install openlocationcode`. 
 
-Once it is done, the command line should look like that.
+Once it is done, the command line prompt should look like that.
 
 ![pip](images/pip-install.png)
 
@@ -92,7 +92,7 @@ The tool expects a field to populate in your input feature class. That field mus
 
 Its length must be longer than the number of characters request for the plus length + 1. This is because Plus Code will add an extra character '+' after the 8th character. 
 
-The minimum field length must be 9. This is because even if you ask for a Plus Code encoded on 4 characters, the API still returns 9 characters (the 4 characters you aked 4 and four characters 0): for example `86JW0000+`. I have not figured out if that's good or bad yet. 
+The minimum field length must be 9. This is because even if you ask for a Plus Code encoded on 4 characters, the API still returns 9 characters (the 4 characters you aked 4 and four characters 0): for example `86JW0000+`. 
 
 Feel free to check out this link if you want to know about plus code levels: https://grid.plus.codes/. From there we can learn:
 
@@ -106,7 +106,7 @@ level=5 will force the grid precision to be eleven digit OLC codes (.000025° x 
 level=6 will force the grid precision to be twelve digit OLC codes (.000005° x 0.0000078125°);
 ```
 
-## <a name="tutorial"></a>Tutorial - Generate a Grid at level 3 and compute the Plus Codes of the polygons
+## <a name="tutorial"></a>Tutorial - Generate polygons at level 3 and compute their Plus Codes
 
 ArcGIS Pro is a powerful piece of software. You can use some built-in tools to generate a grid representing plus codes areas and compute the plus code for the centroid of each polygon using the tool we provide.
 
@@ -116,7 +116,7 @@ In our tutorial, let's generate a level 3 grid for Ottawa, ON, Canada.
 
 ![fishnet-input](images/create-fishnet.png)
 
-Be sure in the section `Environments` to search your spheroid to be WGS84 (you can search by wkid, using the code 4326)
+Be sure in the section `Environments` to set your spheroid to be WGS84 (you can search by wkid, using the code 4326)
 
 ![gcs](images/fishnet-gcs.png)
 
@@ -124,7 +124,7 @@ This will generate our grid for Ottawa:
 
 ![fishnet-output](images/fishnet-output.png)
 
-Use the Add Field tool. Here we have level 3 polygon, so the encoding requires 8 characters, and an additional character `+`. So our field length is 9:
+Use the Add Field tool. Here we have level 3 polygons, so the encoding requires 8 characters, and an additional character `+`. So our field length is 9:
 
 ![add-field](images/add-field.png)
 
@@ -132,7 +132,7 @@ Then use our tool to populate the new field named `PLUS_CODE`:
 
 ![run-tool](images/run-tool.png)
 
-Then turn on labelling to admire the results:
+Then turn on labelling and admire the results:
 
 ![tool-result-labels](images/tool-result-labels.png)
 
