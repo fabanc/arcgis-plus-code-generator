@@ -1,7 +1,13 @@
 # ArcGIS Pro Plus Code Generator
 
+## Table of content
 
-# Description
+* [Description](#description)
+* [System Requirements](#sys-requirements)
+* [How to Install](#install)
+
+
+## <a name="description"></a>Description
 
 This tool exposes the open location code API create by google and uses it to generate Plus Codes on ArcGIS feature classes. The API documentation is there: https://github.com/google/open-location-code
 
@@ -9,13 +15,13 @@ Detailed information about Plus Codes and the KML Service that Google Provides c
 
 This tool is a side effect of a project I have done for work. I have explored different solutions with FME and QGIS, but this was by far the fastest solution. It can generate plus code on points, and polygon feature classes.
 
-# System Requirements
+## <a name="sys-requirements"></a>System Requirements
 
 This tool is developed and tested for ArcGIS Pro. I have tested for ArcGIS Pro 2.7. Your python environment must be of 3.x (tested with 3.7, but I assume it works with 3.6 too). 
 
 The open location code library for Python must be installed in your python environment. The next section will explain how to do that.
 
-# How to install
+## <a name="install"></a>How to Install
 
 ## Clone your Python Environment
 
