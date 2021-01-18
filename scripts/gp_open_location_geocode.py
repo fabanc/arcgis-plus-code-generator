@@ -1,6 +1,8 @@
 import arcpy
 from openlocationcode import openlocationcode as olc
 
+from lib import custom_errors
+
 # https://github.com/google/open-location-code/blob/master/python/openlocationcode_test.py
 # https://grid.plus.codes/
 
@@ -12,7 +14,8 @@ def check_spatial_reference(feature_class):
     :param feature_class: The feature class that will be used to generate the Open Location Code.
     :return:
     """
-    sr = arcpy.Describe(feature_class).spatialReference
+    desc = arcpy.Describe(feature_class)
+    sr = desc.spatialReference
     if sr.factoryCode != 4326:
         raise ValueError('The input feature class must be in WHS84 (WKID 4326)')
 
@@ -49,13 +52,13 @@ def validate_code_field_length(feature_class, plus_code_field, code_length):
 
     field = fields[0]
     if field.type != 'String':
-        raise Exception('The field for plus code must be of type String')
+        raise custom_errors.FieldTypeError('The field for plus code must be of type String')
 
     if field.length < 9:
-        raise Exception('The field {} must at the minimum have a length of 9'.format(plus_code_field))
+        raise custom_errors.FieldTooShort('The field {} must at the minimum have a length of 9'.format(plus_code_field))
 
     if field.length < (code_length + 1):
-        raise Exception('The field {} is not long enough. Field Length: {} - Plus Code Length: {} - Plus Code Length Required: {}'.format(
+        raise custom_errors.FieldTooShort('The field {} is not long enough. Field Length: {} - Plus Code Length: {} - Plus Code Length Required: {}'.format(
             field.name,
             field.length,
             code_length,
